@@ -67,3 +67,60 @@ The application will start and be accessible on http://localhost:8080.
         Fields: email, password
     User Registration: Registers a new user.
         Fields: email, password, roles, barsManaged (for admins)
+
+## DataBase
+Cocktails
+
+    CREATE TABLE Cocktails (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    rating DECIMAL(2, 1),
+    image_path VARCHAR(255)
+    );
+
+Tags
+
+    CREATE TABLE Tags (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) UNIQUE NOT NULL
+    );
+
+CocktailTags
+
+    CREATE TABLE CocktailTags (
+    cocktail_id INT NOT NULL,
+    tag_id INT NOT NULL,
+    FOREIGN KEY (cocktail_id) REFERENCES Cocktails(id),
+    FOREIGN KEY (tag_id) REFERENCES Tags(id),
+    PRIMARY KEY (cocktail_id, tag_id)
+    );
+
+Ingredients
+
+    CREATE TABLE Ingredients (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) UNIQUE NOT NULL
+    );
+
+CocktailIngredients
+
+    CREATE TABLE CocktailIngredients (
+    cocktail_id INT NOT NULL,
+    ingredient_id INT NOT NULL,
+    amount VARCHAR(255) NOT NULL,
+    unit VARCHAR(255) NOT NULL,
+    type VARCHAR(255) NOT NULL,
+    FOREIGN KEY (cocktail_id) REFERENCES Cocktails(id),
+    FOREIGN KEY (ingredient_id) REFERENCES Ingredients(id),
+    PRIMARY KEY (cocktail_id, ingredient_id, type)
+    );
+
+RecipeSteps
+
+    CREATE TABLE RecipeSteps (
+    id SERIAL PRIMARY KEY,
+    cocktail_id INT NOT NULL,
+    step_number INT NOT NULL,
+    description TEXT NOT NULL,
+    FOREIGN KEY (cocktail_id) REFERENCES Cocktails(id)
+    );
