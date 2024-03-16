@@ -21,7 +21,11 @@ class WebSecurityConfig {
         http
             .authorizeHttpRequests { authorize ->
                 authorize
-                    .anyRequest().fullyAuthenticated()
+                    .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                    .requestMatchers("/bar/**").hasAnyAuthority("ROLE_BARMAN", "ROLE_ADMIN")
+                    .requestMatchers("/deleteCocktail/**").hasAuthority("ROLE_SUPER_ADMIN")
+                    .requestMatchers("/").permitAll()
+                    .anyRequest().authenticated()
             }
             .formLogin(Customizer.withDefaults())
 
