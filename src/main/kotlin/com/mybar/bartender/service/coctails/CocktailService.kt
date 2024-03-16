@@ -1,7 +1,7 @@
-package com.mybar.bartender.service
+package com.mybar.bartender.service.coctails
 
 import com.mybar.bartender.model.cocktails.Cocktail
-import com.mybar.bartender.repository.CocktailRepository
+import com.mybar.bartender.repository.cocktails.CocktailRepository
 import com.mybar.bartender.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

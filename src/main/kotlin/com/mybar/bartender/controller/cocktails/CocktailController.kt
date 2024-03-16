@@ -1,12 +1,12 @@
-package com.mybar.bartender.controller
+package com.mybar.bartender.controller.cocktails
 
 import com.mybar.bartender.model.cocktails.Cocktail
-import com.mybar.bartender.service.CocktailService
+import com.mybar.bartender.service.coctails.CocktailService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/cocktails")
+@RequestMapping("/api/cocktails")
 class CocktailController(private val cocktailService: CocktailService) {
 
     @GetMapping

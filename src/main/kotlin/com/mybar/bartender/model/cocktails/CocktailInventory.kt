@@ -3,8 +3,8 @@ package com.mybar.bartender.model.cocktails
 import jakarta.persistence.*
 
 @Entity
-@Table(name = "CocktailIngredients")
-data class CocktailIngredient(
+@Table(name = "CocktailInventory")
+data class CocktailInventory(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
@@ -14,8 +14,8 @@ data class CocktailIngredient(
     val cocktail: Cocktail,
 
     @ManyToOne
-    @JoinColumn(name = "ingredient_id", nullable = false)
-    val ingredient: Ingredient,
+    @JoinColumn(name = "inventory_item_id", nullable = false)
+    val inventoryItem: InventoryItem,
 
     val amount: String,
 

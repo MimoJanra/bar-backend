@@ -9,9 +9,6 @@ data class Ingredient(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
-    @Column(nullable = false, unique = true, length = 255)
-    val name: String,
-
-    @OneToMany(mappedBy = "ingredient")
-    val cocktailIngredients: Set<CocktailIngredient> = HashSet()
+    @Column(unique = true, nullable = false)
+    val name: String
 )

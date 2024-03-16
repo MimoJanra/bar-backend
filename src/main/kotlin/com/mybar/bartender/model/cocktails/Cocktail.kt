@@ -27,9 +27,12 @@ data class Cocktail(
     @OneToMany(mappedBy = "cocktail")
     val cocktailTags: Set<CocktailTag> = HashSet(),
 
-    @OneToMany(mappedBy = "cocktail")
+    @OneToMany(mappedBy = "cocktail", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     val cocktailIngredients: Set<CocktailIngredient> = HashSet(),
 
-    @OneToMany(mappedBy = "cocktail")
+    @OneToMany(mappedBy = "cocktail", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    val cocktailInventories: Set<CocktailInventory> = HashSet(),
+
+    @OneToMany(mappedBy = "cocktail", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     val recipeSteps: Set<RecipeStep> = HashSet()
 )
