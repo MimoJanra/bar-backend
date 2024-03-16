@@ -3,11 +3,11 @@ package com.mybar.bartender.model.cocktails
 import jakarta.persistence.*
 
 @Entity
-@Table(name = "Tags")
-data class Tag(
+@Table(name = "InventoryItems")
+data class InventoryItem(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0,
+    var id: Long = 0,
 
     @Column(unique = true, nullable = false)
     val name: String

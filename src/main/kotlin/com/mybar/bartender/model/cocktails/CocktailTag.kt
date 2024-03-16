@@ -6,12 +6,14 @@ import jakarta.persistence.*
 @Table(name = "CocktailTags")
 data class CocktailTag(
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long = 0,
+
     @ManyToOne
-    @JoinColumn(name = "cocktail_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "cocktail_id", nullable = false)
     val cocktail: Cocktail,
 
-    @Id
     @ManyToOne
-    @JoinColumn(name = "tag_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "tag_id", nullable = false)
     val tag: Tag
 )

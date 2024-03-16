@@ -1,4 +1,4 @@
-package com.mybar.bartender.repository
+package com.mybar.bartender.repository.cocktails
 
 import com.mybar.bartender.model.cocktails.Cocktail
 import org.springframework.data.jpa.repository.JpaRepository
