@@ -21,9 +21,9 @@ class CocktailController(private val cocktailService: CocktailService) {
         return if (cocktail != null) ResponseEntity.ok(cocktail) else ResponseEntity.notFound().build()
     }
 
-    @PostMapping
     fun createCocktail(@RequestBody cocktail: Cocktail): ResponseEntity<Cocktail> {
-        val savedCocktail = cocktailService.createCocktail(cocktail)
+        val userId = getCurrentUserId()
+        val savedCocktail = cocktailService.createCocktail(cocktail, userId)
         return ResponseEntity.ok(savedCocktail)
     }
 
@@ -35,8 +35,13 @@ class CocktailController(private val cocktailService: CocktailService) {
 
     @DeleteMapping("/{id}")
     fun deleteCocktail(@PathVariable id: Long): ResponseEntity<Void> {
-        cocktailService.deleteCocktail(id)
+        val userId = getCurrentUserId()
+        cocktailService.deleteCocktail(id, userId)
         return ResponseEntity.ok().build()
+    }
+
+    private fun getCurrentUserId(): Long {
+        return 1
     }
 
     @GetMapping("/search")
