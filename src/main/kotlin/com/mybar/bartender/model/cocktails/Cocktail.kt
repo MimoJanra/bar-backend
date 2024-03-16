@@ -20,10 +20,6 @@ data class Cocktail(
     @Column(name = "image_path", length = 255)
     var imagePath: String? = null,
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    var user: User,
-
     @OneToMany(mappedBy = "cocktail")
     val cocktailTags: Set<CocktailTag> = HashSet(),
 

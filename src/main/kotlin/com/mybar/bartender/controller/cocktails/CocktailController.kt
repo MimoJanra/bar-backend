@@ -1,13 +1,19 @@
 package com.mybar.bartender.controller.cocktails
 
+import com.mybar.bartender.dto.CocktailDto
 import com.mybar.bartender.model.cocktails.Cocktail
+import com.mybar.bartender.service.coctails.CocktailCreationService
 import com.mybar.bartender.service.coctails.CocktailService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/cocktails")
-class CocktailController(private val cocktailService: CocktailService) {
+class CocktailController(
+    private val cocktailService: CocktailService,
+    @Autowired private val cocktailCreationService: CocktailCreationService
+) {
 
     @GetMapping
     fun getAllCocktails(): ResponseEntity<List<Cocktail>> {
@@ -21,9 +27,9 @@ class CocktailController(private val cocktailService: CocktailService) {
         return if (cocktail != null) ResponseEntity.ok(cocktail) else ResponseEntity.notFound().build()
     }
 
-    fun createCocktail(@RequestBody cocktail: Cocktail): ResponseEntity<Cocktail> {
-        val userId = getCurrentUserId()
-        val savedCocktail = cocktailService.createCocktail(cocktail, userId)
+    @PostMapping
+    fun createCocktail(@RequestBody cocktailDto: CocktailDto): ResponseEntity<Cocktail> {
+        val savedCocktail = cocktailCreationService.createCocktail(cocktailDto)
         return ResponseEntity.ok(savedCocktail)
     }
 
