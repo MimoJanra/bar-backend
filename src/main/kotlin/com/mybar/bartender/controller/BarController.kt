@@ -1,7 +1,9 @@
 package com.mybar.bartender.controller
 
+import com.mybar.bartender.dto.BarDto
 import com.mybar.bartender.service.BarService
 import com.mybar.bartender.model.Bar
+import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -10,8 +12,8 @@ import org.springframework.web.bind.annotation.*
 class BarController(private val barService: BarService) {
 
     @PostMapping
-    fun createBar(@RequestBody bar: Bar): ResponseEntity<Bar> {
-        val createdBar = barService.createBar(bar.name, bar.location)
+    fun createBar(@Valid @RequestBody barDto: BarDto): ResponseEntity<Bar> {
+        val createdBar = barService.createBar(barDto)
         return ResponseEntity.ok(createdBar)
     }
 

@@ -4,10 +4,10 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "users")
-data class User(
+class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0,
+    val id: Long? = 0,
 
     @Column(nullable = false, unique = true)
     val email: String,
@@ -15,4 +15,6 @@ data class User(
     @Column(nullable = false)
     val password: String,
 
+    @OneToMany(cascade = [(CascadeType.ALL)], fetch = FetchType.LAZY, mappedBy = "user")
+    val bars: List<Bar>? = mutableListOf(),
 )
