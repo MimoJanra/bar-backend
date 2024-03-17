@@ -41,8 +41,7 @@ class CocktailController(
 
     @DeleteMapping("/{id}")
     fun deleteCocktail(@PathVariable id: Long): ResponseEntity<Void> {
-        val userId = getCurrentUserId()
-        cocktailService.deleteCocktail(id, userId)
+        cocktailService.deleteCocktail(id)
         return ResponseEntity.ok().build()
     }
 

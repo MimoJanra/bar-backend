@@ -1,8 +1,8 @@
 package com.mybar.bartender.service.coctails
 
 import com.mybar.bartender.model.cocktails.Cocktail
-import com.mybar.bartender.repository.cocktails.CocktailRepository
 import com.mybar.bartender.repository.UserRepository
+import com.mybar.bartender.repository.cocktails.CocktailRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -20,11 +20,7 @@ class CocktailService(
         cocktailRepository.findByNameContainingIgnoreCase(name)
 
     @Transactional
-    fun createCocktail(cocktail: Cocktail, userId: Long): Cocktail {
-        val user = userRepository.findById(userId).orElseThrow {
-            RuntimeException("User not found")
-        }
-        cocktail.user = user
+    fun createCocktail(cocktail: Cocktail): Cocktail {
         return cocktailRepository.save(cocktail)
     }
 
@@ -37,14 +33,7 @@ class CocktailService(
         return cocktailRepository.save(cocktail)
     }
 
-    fun deleteCocktail(cocktailId: Long, userId: Long) {
-        val cocktail = cocktailRepository.findById(cocktailId).orElseThrow {
-            RuntimeException("Cocktail not found")
-        }
-        if (cocktail.user.id == userId) {
-            cocktailRepository.deleteById(cocktailId)
-        } else {
-            throw SecurityException("You are not authorized to delete this cocktail")
-        }
+    fun deleteCocktail(cocktailId: Long) {
+        cocktailRepository.deleteById(cocktailId)
     }
 }

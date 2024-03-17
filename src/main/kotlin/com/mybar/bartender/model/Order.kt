@@ -1,5 +1,6 @@
 package com.mybar.bartender.model
 
+import com.mybar.bartender.model.cocktails.Cocktail
 import jakarta.persistence.*
 import java.util.Date
 
