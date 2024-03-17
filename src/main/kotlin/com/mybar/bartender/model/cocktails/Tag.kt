@@ -1,14 +1,14 @@
-package com.mybar.bartender.model
+package com.mybar.bartender.model.cocktails
 
 import jakarta.persistence.*
 
 @Entity
-@Table(name = "ingredients")
-class Ingredient(
+@Table(name = "Tags")
+data class Tag(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
-    @Column(nullable = false, length = 255)
+    @Column(unique = true, nullable = false)
     val name: String
 )
