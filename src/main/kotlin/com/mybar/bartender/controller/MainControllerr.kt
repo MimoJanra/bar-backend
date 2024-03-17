@@ -19,17 +19,17 @@ class MainControllerr(
 ) {
     @PostMapping("/auth")
     fun createAuthToken(@RequestBody authRequest: JwtRequest?): ResponseEntity<*> {
-        return authService!!.createAuthToken(authRequest)
+        return authService.createAuthToken(authRequest)
     }
 
     @PostMapping("/registration")
     fun createNewUser(@RequestBody registrationUserDto: RegistrationUserDto?): ResponseEntity<*> {
-        return authService!!.createNewUser(registrationUserDto)
+        return authService.createNewUser(registrationUserDto)
     }
 
     @GetMapping("/users")
     fun getUser(): List<UserDto> {
-        return userService!!.allUsers
+        return userService.getAllUsers();
     }
 
     @GetMapping("/roles")

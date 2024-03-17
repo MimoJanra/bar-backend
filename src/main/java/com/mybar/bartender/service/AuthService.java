@@ -41,10 +41,11 @@ public class AuthService {
     }
 
     public ResponseEntity<?> createNewUser(@RequestBody RegistrationUserDto registrationUserDto) {
-        if (userService.findByUsername(registrationUserDto.getUsername()).isPresent()) {
+
+        if (userService.findByUsername(registrationUserDto.getUsername()) != null) {
             return new ResponseEntity<>(new ApiError(HttpStatus.BAD_REQUEST.toString(), "Пользователь с указанным именем уже существует"), HttpStatus.BAD_REQUEST);
         }
-        if (userService.findByEmail(registrationUserDto.getEmail()).isPresent()) {
+        if (userService.findByEmail(registrationUserDto.getEmail()) != null) {
             return new ResponseEntity<>(new ApiError(HttpStatus.BAD_REQUEST.toString(), "Пользователь с указанным email уже существует"), HttpStatus.BAD_REQUEST);
         }
         User user = userService.createNewUser(registrationUserDto);
