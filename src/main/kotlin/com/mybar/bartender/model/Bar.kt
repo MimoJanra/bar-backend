@@ -1,5 +1,7 @@
 package com.mybar.bartender.model
 
+import com.mybar.bartender.dto.BarDto
+import com.mybar.bartender.model.cocktails.Cocktail
 import jakarta.persistence.*
 
 @Entity
@@ -17,5 +19,12 @@ class Bar(
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    val user: User
-)
+    val user: User,
+
+    @OneToMany(mappedBy = "bar")
+    val cocktails: Set<Cocktail> = HashSet(),
+) {
+    fun toDto(): BarDto {
+        return BarDto(id = this.id!!, name = this.name, location = this.location, userId = this.user.id!!)
+    }
+}

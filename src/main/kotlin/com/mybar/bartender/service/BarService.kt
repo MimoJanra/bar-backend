@@ -22,4 +22,11 @@ class BarService(
     }
 
     fun getAllBars(): List<Bar> = barRepository.findAll()
+
+    fun remove(barId: Long): Long? {
+        var bar = barRepository.findById(barId).getOrNull()
+            ?: throw EntityNotFoundException(barId);
+        barRepository.delete(bar);
+        return barId;
+    }
 }

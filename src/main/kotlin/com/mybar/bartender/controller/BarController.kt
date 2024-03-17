@@ -12,14 +12,19 @@ import org.springframework.web.bind.annotation.*
 class BarController(private val barService: BarService) {
 
     @PostMapping
-    fun createBar(@Valid @RequestBody barDto: BarDto): ResponseEntity<Bar> {
+    fun createBar(@Valid @RequestBody barDto: BarDto): ResponseEntity<BarDto> {
         val createdBar = barService.createBar(barDto)
-        return ResponseEntity.ok(createdBar)
+        return ResponseEntity.ok(createdBar.toDto())
     }
 
     @GetMapping
-    fun getAllBars(): ResponseEntity<List<Bar>> {
-        val bars = barService.getAllBars()
+    fun getAllBars(): ResponseEntity<List<BarDto>> {
+        val bars = barService.getAllBars().map { x -> x.toDto() }
         return ResponseEntity.ok(bars)
+    }
+
+    @DeleteMapping
+    fun removeBar(@RequestParam barId: Long): ResponseEntity<Long> {
+        return ResponseEntity.ok(barService.remove(barId))
     }
 }

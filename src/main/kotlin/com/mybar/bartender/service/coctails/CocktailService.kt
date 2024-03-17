@@ -1,6 +1,8 @@
 package com.mybar.bartender.service.coctails
 
+import com.mybar.bartender.dto.CocktailDto
 import com.mybar.bartender.model.cocktails.Cocktail
+import com.mybar.bartender.repository.BarRepository
 import com.mybar.bartender.repository.cocktails.CocktailRepository
 import com.mybar.bartender.repository.UserRepository
 import org.springframework.stereotype.Service
@@ -9,7 +11,8 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class CocktailService(
     private val cocktailRepository: CocktailRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val barRepository: BarRepository
 ) {
 
     fun findAllCocktails(): List<Cocktail> = cocktailRepository.findAll()
@@ -20,12 +23,11 @@ class CocktailService(
         cocktailRepository.findByNameContainingIgnoreCase(name)
 
     @Transactional
-    fun createCocktail(cocktail: Cocktail, userId: Long): Cocktail {
-        val user = userRepository.findById(userId).orElseThrow {
-            RuntimeException("User not found")
+    fun createCocktail(cocktail: CocktailDto, barId: Long): Cocktail {
+        val bar = barRepository.findById(barId).orElseThrow {
+            RuntimeException("bar not found")
         }
-        cocktail.user = user
-        return cocktailRepository.save(cocktail)
+        return cocktailRepository.save(cocktail.toEntity(bar))
     }
 
     @Transactional
@@ -41,10 +43,7 @@ class CocktailService(
         val cocktail = cocktailRepository.findById(cocktailId).orElseThrow {
             RuntimeException("Cocktail not found")
         }
-        if (cocktail.user.id == userId) {
-            cocktailRepository.deleteById(cocktailId)
-        } else {
-            throw SecurityException("You are not authorized to delete this cocktail")
-        }
+        cocktailRepository.deleteById(cocktailId)
+
     }
 }
