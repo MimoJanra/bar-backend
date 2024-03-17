@@ -4,15 +4,27 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "users")
-data class User(
+class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0,
+    var id: Long? = 0,
 
     @Column(nullable = false, unique = true)
-    val email: String,
+    var email: String,
+
+    @Column(nullable = false, unique = true)
+    var name: String,
 
     @Column(nullable = false)
-    val password: String,
+    var password: String,
 
+    @OneToMany(cascade = [(CascadeType.ALL)], fetch = FetchType.LAZY, mappedBy = "user")
+    val bars: List<Bar>? = mutableListOf(),
+
+    @ManyToMany @JoinTable(
+        name = "users_roles",
+        joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
+        inverseJoinColumns = [JoinColumn(name = "role_id", referencedColumnName = "id")]
+    )
+    var roles: List<Role?>? = null
 )
