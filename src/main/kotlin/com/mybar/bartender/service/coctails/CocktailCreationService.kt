@@ -2,6 +2,7 @@ package com.mybar.bartender.service.cocktails
 
 import com.mybar.bartender.dto.CocktailDto
 import com.mybar.bartender.model.cocktails.*
+import com.mybar.bartender.repository.BarRepository
 import com.mybar.bartender.repository.cocktails.*
 import org.springframework.stereotype.Service
 import jakarta.transaction.Transactional
@@ -12,16 +13,18 @@ class CocktailCreationService(
     private val tagRepository: TagRepository,
     private val ingredientRepository: IngredientRepository,
     private val inventoryItemRepository: InventoryItemRepository,
-    private val cocktailTagRepository: CocktailTagRepository,
-    private val cocktailIngredientRepository: CocktailIngredientRepository,
-    private val cocktailInventoryRepository: CocktailInventoryRepository,
-    private val recipeStepRepository: RecipeStepRepository
+    private val cocktailTagRepository: TagRepository,
+    private val cocktailIngredientRepository: IngredientRepository,
+    private val cocktailInventoryRepository: InventoryItemRepository,
+    private val recipeStepRepository: RecipeStepRepository,
+    private val barRepository: BarRepository
 ) {
     @Transactional
     fun createCocktail(dto: CocktailDto): Cocktail {
-        val cocktail = Cocktail(name = dto.name, rating = dto.rating, imagePath = dto.imagePath).let {
-            cocktailRepository.save(it)
+        val bar = barRepository.findById(dto.barId).orElseThrow {
+            RuntimeException("bar not found")
         }
+        val cocktail = cocktailRepository.save(Cocktail(name = dto.name, rating = dto.rating, imagePath = dto.imagePath, bar = bar))
 
         dto.tags.forEach { tagName ->
             val tag = tagRepository.findByName(tagName) ?: tagRepository.save(Tag(name = tagName))

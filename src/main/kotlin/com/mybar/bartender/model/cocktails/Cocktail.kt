@@ -1,12 +1,13 @@
 package com.mybar.bartender.model.cocktails
 
+import com.mybar.bartender.model.Bar
 import com.mybar.bartender.model.User
 import jakarta.persistence.*
 import java.math.BigDecimal
 
 @Entity
 @Table(name = "Cocktails")
-data class Cocktail(
+class Cocktail(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
@@ -19,6 +20,10 @@ data class Cocktail(
 
     @Column(name = "image_path", length = 255)
     var imagePath: String? = null,
+
+    @ManyToOne
+    @JoinColumn(name = "bar_id", nullable = false)
+    val bar: Bar,
 
     @OneToMany(mappedBy = "cocktail")
     val cocktailTags: Set<CocktailTag> = HashSet(),
