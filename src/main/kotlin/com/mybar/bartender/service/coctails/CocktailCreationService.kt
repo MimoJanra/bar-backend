@@ -1,11 +1,11 @@
-package com.mybar.bartender.service.coctails
+package com.mybar.bartender.service.cocktails
 
 import com.mybar.bartender.dto.CocktailDto
 import com.mybar.bartender.model.cocktails.*
 import com.mybar.bartender.repository.BarRepository
 import com.mybar.bartender.repository.cocktails.*
-import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
+import jakarta.transaction.Transactional
 
 @Service
 class CocktailCreationService(
@@ -42,12 +42,7 @@ class CocktailCreationService(
         }
 
         dto.recipeSteps.forEach { stepDto ->
-            val step = RecipeStep(
-                cocktail = cocktail,
-                stepNumber = stepDto.stepNumber,
-                description = stepDto.description
-            )
-            recipeStepRepository.save(step)
+            recipeStepRepository.save(RecipeStep(cocktail = cocktail, stepNumber = stepDto.stepNumber, description = stepDto.description))
         }
 
         return cocktail
