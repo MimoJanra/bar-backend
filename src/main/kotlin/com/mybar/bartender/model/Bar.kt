@@ -25,6 +25,6 @@ class Bar(
     val cocktails: Set<Cocktail> = HashSet(),
 ) {
     fun toDto(): BarDto {
-        return BarDto(id = this.id!!, name = this.name, location = this.location, userId = this.user.id!!)
+        return BarDto(id = this.id!!, name = this.name, location = this.location)
     }
 }
