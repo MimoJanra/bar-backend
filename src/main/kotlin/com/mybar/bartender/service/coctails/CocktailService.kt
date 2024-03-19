@@ -4,15 +4,12 @@ import com.mybar.bartender.dto.CocktailDto
 import com.mybar.bartender.model.cocktails.Cocktail
 import com.mybar.bartender.repository.BarRepository
 import com.mybar.bartender.repository.cocktails.CocktailRepository
-import com.mybar.bartender.repository.UserRepository
-import com.mybar.bartender.repository.cocktails.CocktailRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class CocktailService(
     private val cocktailRepository: CocktailRepository,
-    private val userRepository: UserRepository,
     private val barRepository: BarRepository
 ) {
 
@@ -40,7 +37,7 @@ class CocktailService(
         return cocktailRepository.save(cocktail)
     }
 
-    fun deleteCocktail(cocktailId: Long, userId: Long) {
+    fun deleteCocktail(cocktailId: Long) {
         val cocktail = cocktailRepository.findById(cocktailId).orElseThrow {
             RuntimeException("Cocktail not found")
         }

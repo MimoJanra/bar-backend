@@ -11,12 +11,14 @@ import kotlin.jvm.optionals.getOrNull
 
 @Service
 class BarService(
+    private var authService: AuthService,
     private val barRepository: BarRepository,
     private val userRepository: UserRepository) {
 
     fun createBar(dto: BarDto): Bar {
-        var user: User = userRepository.findById(dto.userId).getOrNull()
-            ?: throw EntityNotFoundException(dto.userId)
+        var id = authService.getUserId();
+        var user: User = userRepository.findById(id).getOrNull()
+            ?: throw EntityNotFoundException(id)
         val bar = dto.toEntity(user)
         return barRepository.save(bar)
     }
