@@ -1,6 +1,5 @@
 package com.mybar.bartender.dto
 
-class JwtResponse(
-    var accessToken: String,
+class RefreshJwtRequest (
     var refreshToken : String
 )

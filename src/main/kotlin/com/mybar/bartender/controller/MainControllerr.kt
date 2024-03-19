@@ -1,11 +1,11 @@
 package com.mybar.bartender.controller
 
 import com.mybar.bartender.dto.JwtRequest
+import com.mybar.bartender.dto.RefreshJwtRequest
 import com.mybar.bartender.dto.RegistrationUserDto
 import com.mybar.bartender.dto.UserDto
 import com.mybar.bartender.service.AuthService
 import com.mybar.bartender.service.UserService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -20,6 +20,12 @@ class MainControllerr(
     @PostMapping("/auth")
     fun createAuthToken(@RequestBody authRequest: JwtRequest?): ResponseEntity<*> {
         return authService.createAuthToken(authRequest)
+    }
+
+    //TODO: -Not Check
+    @PostMapping("/refresh")
+    fun refreshToken(@RequestBody refreshJwtRequest: RefreshJwtRequest?): ResponseEntity<*> {
+        return authService.refresh(refreshJwtRequest)
     }
 
     @PostMapping("/registration")
