@@ -7,10 +7,7 @@ import com.mybar.bartender.dto.UserDto
 import com.mybar.bartender.service.AuthService
 import com.mybar.bartender.service.UserService
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 class MainControllerr(

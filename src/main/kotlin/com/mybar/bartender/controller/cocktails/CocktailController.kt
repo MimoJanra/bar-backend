@@ -82,7 +82,7 @@ class CocktailController(
     )
     @DeleteMapping("/{id}")
     fun deleteCocktail(@PathVariable id: Long): ResponseEntity<Void> {
-        cocktailService.deleteCocktail(id)
+        //TODO:- cocktailService.deleteCocktail(id)
         return ResponseEntity.ok().build()
     }
 
