@@ -1,15 +1,11 @@
 package com.mybar.bartender.service;
 
 import com.art.playersapi.exception.ApiError;
-import com.mybar.bartender.dto.JwtRequest;
-import com.mybar.bartender.dto.JwtResponse;
-
-
-import com.mybar.bartender.dto.RegistrationUserDto;
-import com.mybar.bartender.dto.UserDto;
+import com.mybar.bartender.dto.*;
 import com.mybar.bartender.model.User;
-import com.mybar.bartender.service.UserService;
 import com.mybar.bartender.utils.JwtTokenUtils;
+import io.jsonwebtoken.Claims;
+import jakarta.security.auth.message.AuthException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +34,21 @@ public class AuthService {
         }
         UserDetails userDetails = userService.loadUserByUsername(authRequest.getUsername());
         String token = jwtTokenUtils.generateToken(userDetails);
-        return ResponseEntity.ok(new JwtResponse(token));
+        String refreshToken = jwtTokenUtils.generateRefreshToken(userDetails);
+        return ResponseEntity.ok(new JwtResponse(token, refreshToken));
+    }
+    //TODO: -Not Check
+    public ResponseEntity<?> refresh(RefreshJwtRequest refreshToken) {
+        var refreshTokenValue = refreshToken.getRefreshToken();
+        if (jwtTokenUtils.validateRefreshToken(refreshTokenValue)) {
+            final Claims claims = jwtTokenUtils.getRefreshClaims(refreshTokenValue);
+            final String login = claims.getSubject();
+            UserDetails user = userService.loadUserByUsername(login);
+            final String accessToken = jwtTokenUtils.generateToken(user);
+            final String newRefreshToken = jwtTokenUtils.generateRefreshToken(user);
+            return ResponseEntity.ok(new JwtResponse(accessToken, newRefreshToken));
+        }
+        return new ResponseEntity<>(new ApiError(HttpStatus.UNAUTHORIZED.toString(), "Невалидный JWT токен"), HttpStatus.UNAUTHORIZED);
     }
 
     public ResponseEntity<?> createNewUser(@RequestBody RegistrationUserDto registrationUserDto) {
