@@ -1,5 +1,6 @@
 package com.mybar.bartender.model.cocktails
 
+import com.mybar.bartender.dto.InventoryItemDto
 import jakarta.persistence.*
 
 @Entity
@@ -20,4 +21,8 @@ data class CocktailInventory(
     val amount: String,
 
     val unit: String
-)
+) {
+    fun toDto() : InventoryItemDto {
+        return InventoryItemDto(this.inventoryItem.name, this.amount, this.unit)
+    }
+}
