@@ -1,7 +1,7 @@
 package com.mybar.bartender.model.cocktails
 
+import com.mybar.bartender.dto.CocktailDto
 import com.mybar.bartender.model.Bar
-import com.mybar.bartender.model.User
 import jakarta.persistence.*
 import java.math.BigDecimal
 
@@ -36,4 +36,17 @@ class Cocktail(
 
     @OneToMany(mappedBy = "cocktail", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     val recipeSteps: Set<RecipeStep> = HashSet()
-)
+) {
+    fun toDto(): CocktailDto {
+        return CocktailDto(
+            this.name,
+            this.rating!!,
+            this.imagePath,
+            this.cocktailTags.map { x -> x.tag.name },
+            this.cocktailIngredients.map { x -> x.toDto() },
+            this.cocktailInventories.map { x -> x.toDto() },
+            this.recipeSteps.map { x -> x.toDto() },
+            this.bar.id!!
+        )
+    }
+}

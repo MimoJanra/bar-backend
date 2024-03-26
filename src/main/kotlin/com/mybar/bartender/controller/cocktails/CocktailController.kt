@@ -1,3 +1,5 @@
+package com.mybar.bartender.controller.cocktails
+
 import com.mybar.bartender.dto.CocktailDto
 import com.mybar.bartender.model.cocktails.Cocktail
 import com.mybar.bartender.service.cocktails.CocktailCreationService
@@ -8,21 +10,20 @@ import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.parameters.RequestBody
 import io.swagger.v3.oas.annotations.responses.ApiResponse
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/cocktails")
+@RequestMapping("api/cocktails")
 class CocktailController(
     private val cocktailService: CocktailService,
-    @Autowired private val cocktailCreationService: CocktailCreationService
+    private val cocktailCreationService: CocktailCreationService
 ) {
 
     @Operation(summary = "Get all cocktails", description = "Retrieve a list of all available cocktails")
     @GetMapping
-    fun getAllCocktails(): ResponseEntity<List<Cocktail>> {
-        val cocktails = cocktailService.findAllCocktails()
+    fun getAllCocktails(): ResponseEntity<List<CocktailDto>> {
+        val cocktails = cocktailService.findAllCocktails().map { x -> x.toDto() }
         return ResponseEntity.ok(cocktails)
     }
 
