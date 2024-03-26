@@ -14,7 +14,6 @@ class OrderController(private val orderService: OrderService) {
     @PostMapping
     fun createOrder(@RequestBody orderDto: OrderDto): ResponseEntity<Any> {
         val order = orderService.createOrder(orderDto)
-        // URI созданного заказа. Пример: /orders/123
         val location = URI.create("/orders/${order.id}")
         return ResponseEntity.created(location).body(order)
     }

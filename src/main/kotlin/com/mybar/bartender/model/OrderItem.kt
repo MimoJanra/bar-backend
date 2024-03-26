@@ -1,7 +1,6 @@
 package com.mybar.bartender.model
 
 import com.mybar.bartender.model.cocktails.Cocktail
-import com.mybar.bartender.model.cocktails.Order
 import jakarta.persistence.*
 
 @Entity

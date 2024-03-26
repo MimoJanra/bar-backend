@@ -1,5 +1,6 @@
 package com.mybar.bartender.dto
 
+import com.mybar.bartender.model.OrderStatus
 import java.time.LocalDateTime
 
 class OrderDto(
@@ -8,6 +9,6 @@ class OrderDto(
     val orderItems: List<OrderItemDto>,
     val note: String,
     val totalCost: Double,
-    val status: String,
+    val status: OrderStatus,
     val createdAt: LocalDateTime = LocalDateTime.now()
 )

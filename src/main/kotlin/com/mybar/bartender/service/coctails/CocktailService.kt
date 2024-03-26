@@ -15,6 +15,9 @@ class CocktailService(
 
     fun findAllCocktails(): List<Cocktail> = cocktailRepository.findAll()
 
+    fun findCocktailByName(name: String): Cocktail? =
+        cocktailRepository.findByName(name)
+
     fun getCocktailById(id: Long): Cocktail? = cocktailRepository.findById(id).orElse(null)
 
     fun searchCocktailsByName(name: String): List<Cocktail> =
