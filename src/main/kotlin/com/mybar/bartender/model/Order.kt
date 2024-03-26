@@ -2,7 +2,6 @@ package com.mybar.bartender.model
 
 import jakarta.persistence.*
 import java.time.LocalDateTime
-import java.util.*
 import kotlin.collections.HashSet
 
 @Entity
@@ -26,4 +25,14 @@ class Order(
     val status: OrderStatus,
     @Column(nullable = false)
     val createdAt: LocalDateTime
-)
+) {
+    fun addOrderItem(orderItem: OrderItem) {
+        orderItems.add(orderItem)
+        orderItem.order = this
+    }
+
+    fun removeOrderItem(orderItem: OrderItem) {
+        orderItems.remove(orderItem)
+        orderItem.order = null
+    }
+}

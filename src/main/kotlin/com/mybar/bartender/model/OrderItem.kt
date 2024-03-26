@@ -12,12 +12,12 @@ class OrderItem(
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "order_id", nullable = false)
-    val order: Order,
+    var order: Order?,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "cocktail_id", nullable = false)
     val cocktail: Cocktail,
 
-    @Column()
-    val count: Int,
+    @Column
+    val count: Int
 )

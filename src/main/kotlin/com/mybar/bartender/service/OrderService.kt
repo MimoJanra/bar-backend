@@ -27,8 +27,8 @@ class OrderService(@Autowired val orderRepository: OrderRepository,
         val savedOrder = orderRepository.save(order)
 
         val orderItems = orderDto.orderItems.map { itemDto ->
-            val cocktail = cocktailRepository.findByName(itemDto.cocktail.name)
-                ?: throw Exception("Cocktail not found: ${itemDto.cocktail.name}")
+            val cocktail = cocktailRepository.findById(itemDto.cocktailId)
+                .orElseThrow { Exception("Cocktail not found with id: ${itemDto.cocktailId}") }
 
             OrderItem(
                 order = savedOrder,
