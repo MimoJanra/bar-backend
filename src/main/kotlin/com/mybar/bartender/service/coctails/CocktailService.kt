@@ -20,9 +20,6 @@ class CocktailService(
 
     fun getCocktailById(id: Long): Cocktail? = cocktailRepository.findById(id).orElse(null)
 
-    fun searchCocktailsByName(name: String): List<Cocktail> =
-        cocktailRepository.findByNameContainingIgnoreCase(name)
-
     @Transactional
     fun createCocktail(cocktail: CocktailDto, barId: Long): Cocktail {
         val bar = barRepository.findById(barId).orElseThrow {

@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CocktailRepository : JpaRepository<Cocktail, Long> {
-    fun findByNameContainingIgnoreCase(name: String): List<Cocktail>
     fun findByName(name: String): Cocktail?
 }

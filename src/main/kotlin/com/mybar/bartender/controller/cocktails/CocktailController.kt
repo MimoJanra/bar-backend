@@ -104,8 +104,8 @@ class CocktailController(
         ]
     )
     @GetMapping("/search")
-    fun searchCocktailsByName(@RequestParam("name") name: String): ResponseEntity<List<Cocktail>> {
-        val cocktails = cocktailService.searchCocktailsByName(name)
+    fun searchCocktailsByName(@RequestParam("name") name: String): ResponseEntity<Cocktail> {
+        val cocktails = cocktailService.findCocktailByName(name)
         return ResponseEntity.ok(cocktails)
     }
 }
