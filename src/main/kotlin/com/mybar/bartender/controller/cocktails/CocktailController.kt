@@ -31,8 +31,10 @@ class CocktailController(
         summary = "Get a cocktail by its ID",
         description = "Provide an ID to look up a specific cocktail",
         responses = [
-            ApiResponse(responseCode = "200", description = "Successful operation",
-                content = [Content(schema = Schema(implementation = Cocktail::class))]),
+            ApiResponse(
+                responseCode = "200", description = "Successful operation",
+                content = [Content(schema = Schema(implementation = Cocktail::class))]
+            ),
             ApiResponse(responseCode = "404", description = "Cocktail not found")
         ]
     )
@@ -48,8 +50,10 @@ class CocktailController(
         description = "Creates a new cocktail with the provided details including tags, ingredients, and inventory items.",
         requestBody = RequestBody(content = [Content(schema = Schema(implementation = CocktailDto::class))]),
         responses = [
-            ApiResponse(responseCode = "200", description = "Cocktail created successfully",
-                content = [Content(schema = Schema(implementation = Cocktail::class))]),
+            ApiResponse(
+                responseCode = "200", description = "Cocktail created successfully",
+                content = [Content(schema = Schema(implementation = Cocktail::class))]
+            ),
             ApiResponse(responseCode = "400", description = "Invalid input")
         ]
     )
@@ -62,8 +66,10 @@ class CocktailController(
         summary = "Update an existing cocktail",
         description = "Update details of an existing cocktail by ID",
         responses = [
-            ApiResponse(responseCode = "200", description = "Cocktail updated successfully",
-                content = [Content(schema = Schema(implementation = Cocktail::class))]),
+            ApiResponse(
+                responseCode = "200", description = "Cocktail updated successfully",
+                content = [Content(schema = Schema(implementation = Cocktail::class))]
+            ),
             ApiResponse(responseCode = "404", description = "Cocktail not found")
         ]
     )
@@ -91,8 +97,10 @@ class CocktailController(
         summary = "Search cocktails by name",
         description = "Search for cocktails that match the provided name",
         responses = [
-            ApiResponse(responseCode = "200", description = "Search completed",
-                content = [Content(schema = Schema(implementation = Cocktail::class))])
+            ApiResponse(
+                responseCode = "200", description = "Search completed",
+                content = [Content(schema = Schema(implementation = Cocktail::class))]
+            )
         ]
     )
     @GetMapping("/search")

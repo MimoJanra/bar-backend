@@ -4,8 +4,8 @@ import com.mybar.bartender.dto.CocktailDto
 import com.mybar.bartender.model.cocktails.*
 import com.mybar.bartender.repository.BarRepository
 import com.mybar.bartender.repository.cocktails.*
-import org.springframework.stereotype.Service
 import jakarta.transaction.Transactional
+import org.springframework.stereotype.Service
 
 @Service
 class CocktailCreationService(
@@ -24,7 +24,14 @@ class CocktailCreationService(
         val bar = barRepository.findById(dto.barId).orElseThrow {
             RuntimeException("bar not found")
         }
-        val cocktail = cocktailRepository.save(Cocktail(name = dto.name, rating = dto.rating, imagePath = dto.imagePath, bar = bar))
+        val cocktail = cocktailRepository.save(
+            Cocktail(
+                name = dto.name,
+                rating = dto.rating,
+                imagePath = dto.imagePath,
+                bar = bar
+            )
+        )
 
         dto.tags.forEach { tagName ->
             val tag = tagRepository.findByName(tagName) ?: tagRepository.save(Tag(name = tagName))
@@ -32,17 +39,42 @@ class CocktailCreationService(
         }
 
         dto.ingredients.forEach { ingredientDto ->
-            val ingredient = ingredientRepository.findByName(ingredientDto.name) ?: ingredientRepository.save(Ingredient(name = ingredientDto.name))
-            cocktailIngredientRepository.save(CocktailIngredient(cocktail = cocktail, ingredient = ingredient, amount = ingredientDto.amount, unit = ingredientDto.unit))
+            val ingredient = ingredientRepository.findByName(ingredientDto.name)
+                ?: ingredientRepository.save(Ingredient(name = ingredientDto.name))
+            cocktailIngredientRepository.save(
+                CocktailIngredient(
+                    cocktail = cocktail,
+                    ingredient = ingredient,
+                    amount = ingredientDto.amount,
+                    unit = ingredientDto.unit
+                )
+            )
         }
 
         dto.inventoryItems.forEach { itemDto ->
-            val item = inventoryItemRepository.findByName(itemDto.name) ?: inventoryItemRepository.save(InventoryItem(name = itemDto.name))
-            cocktailInventoryRepository.save(CocktailInventory(cocktail = cocktail, inventoryItem = item, amount = itemDto.amount, unit = itemDto.unit))
+            val item = inventoryItemRepository.findByName(itemDto.name) ?: inventoryItemRepository.save(
+                InventoryItem(
+                    name = itemDto.name
+                )
+            )
+            cocktailInventoryRepository.save(
+                CocktailInventory(
+                    cocktail = cocktail,
+                    inventoryItem = item,
+                    amount = itemDto.amount,
+                    unit = itemDto.unit
+                )
+            )
         }
 
         dto.recipeSteps.forEach { stepDto ->
-            recipeStepRepository.save(RecipeStep(cocktail = cocktail, stepNumber = stepDto.stepNumber, description = stepDto.description))
+            recipeStepRepository.save(
+                RecipeStep(
+                    cocktail = cocktail,
+                    stepNumber = stepDto.stepNumber,
+                    description = stepDto.description
+                )
+            )
         }
 
         return cocktail

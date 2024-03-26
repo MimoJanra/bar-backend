@@ -1,9 +1,7 @@
 package com.mybar.bartender.service
 
-import com.art.playersapi.exception.EntityNotFoundException
 import com.mybar.bartender.dto.RegistrationUserDto
 import com.mybar.bartender.dto.UserDto
-import com.mybar.bartender.model.Role
 import com.mybar.bartender.model.User
 import com.mybar.bartender.repository.UserRepository
 import org.springframework.context.annotation.Lazy

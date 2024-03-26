@@ -12,7 +12,8 @@ data class CocktailDto(
     val ingredients: List<IngredientDto>,
     val inventoryItems: List<InventoryItemDto>,
     val recipeSteps: List<RecipeStepDto>,
-    val barId : Long) {
+    val barId: Long
+) {
     fun toEntity(bar: Bar): Cocktail {
         return Cocktail(
             name = this.name, rating = this.rating, imagePath = this.imagePath, bar = bar

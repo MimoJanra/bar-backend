@@ -5,7 +5,6 @@ import com.mybar.bartender.dto.*;
 import com.mybar.bartender.model.User;
 import com.mybar.bartender.utils.JwtTokenUtils;
 import io.jsonwebtoken.Claims;
-import jakarta.security.auth.message.AuthException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +36,7 @@ public class AuthService {
         String refreshToken = jwtTokenUtils.generateRefreshToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token, refreshToken));
     }
+
     //TODO: -Not Check
     public ResponseEntity<?> refresh(RefreshJwtRequest refreshToken) {
         var refreshTokenValue = refreshToken.getRefreshToken();

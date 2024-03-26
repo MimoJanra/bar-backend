@@ -20,7 +20,7 @@ data class RecipeStep(
     @Column(nullable = false, columnDefinition = "TEXT")
     val description: String
 ) {
-    fun toDto() : RecipeStepDto {
+    fun toDto(): RecipeStepDto {
         return RecipeStepDto(this.stepNumber, this.description);
     }
 }

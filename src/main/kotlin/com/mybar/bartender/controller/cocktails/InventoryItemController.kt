@@ -17,7 +17,8 @@ class InventoryItemController(private val inventoryItemService: InventoryItemSer
         inventoryItemService.findItemById(id)?.let { ResponseEntity.ok(it) } ?: ResponseEntity.notFound().build()
 
     @PostMapping
-    fun createItem(@RequestBody item: InventoryItem): ResponseEntity<InventoryItem> = ResponseEntity.ok(inventoryItemService.createItem(item))
+    fun createItem(@RequestBody item: InventoryItem): ResponseEntity<InventoryItem> =
+        ResponseEntity.ok(inventoryItemService.createItem(item))
 
     @PutMapping("/{id}")
     fun updateItem(@PathVariable id: Long, @RequestBody item: InventoryItem): ResponseEntity<InventoryItem> =

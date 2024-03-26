@@ -10,6 +10,6 @@ class Role(
     var id: Long? = 0,
 
     @Column(name = "name")
- val name: String? = null
+    val name: String? = null
 ) {
 }

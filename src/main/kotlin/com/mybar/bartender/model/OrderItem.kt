@@ -3,7 +3,6 @@ package com.mybar.bartender.model
 import com.mybar.bartender.model.cocktails.Cocktail
 import com.mybar.bartender.model.cocktails.Order
 import jakarta.persistence.*
-import java.util.Date
 
 @Entity
 @Table(name = "order_item")

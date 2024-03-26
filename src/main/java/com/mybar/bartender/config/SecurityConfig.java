@@ -1,7 +1,6 @@
 package com.mybar.bartender.config;
 
 
-import com.mybar.bartender.config.JwtRequestFilter;
 import com.mybar.bartender.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -33,7 +32,7 @@ import java.util.Arrays;
 @EnableWebSecurity
 @EnableWebMvc
 @EnableGlobalMethodSecurity(securedEnabled = true)
-public class SecurityConfig  {
+public class SecurityConfig {
     @Autowired
     private UserService userService;
     @Autowired
@@ -80,7 +79,7 @@ public class SecurityConfig  {
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
-        return new  BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder();
     }
 
     @Bean

@@ -10,14 +10,17 @@ import org.springframework.web.bind.annotation.*
 class IngredientController(private val ingredientService: IngredientService) {
 
     @GetMapping
-    fun getAllIngredients(): ResponseEntity<List<Ingredient>> = ResponseEntity.ok(ingredientService.findAllIngredients())
+    fun getAllIngredients(): ResponseEntity<List<Ingredient>> =
+        ResponseEntity.ok(ingredientService.findAllIngredients())
 
     @PostMapping
-    fun createIngredient(@RequestBody ingredient: Ingredient): ResponseEntity<Ingredient> = ResponseEntity.ok(ingredientService.createIngredient(ingredient))
+    fun createIngredient(@RequestBody ingredient: Ingredient): ResponseEntity<Ingredient> =
+        ResponseEntity.ok(ingredientService.createIngredient(ingredient))
 
     @PutMapping("/{id}")
     fun updateIngredient(@PathVariable id: Long, @RequestBody ingredient: Ingredient): ResponseEntity<Ingredient> =
-        ingredientService.updateIngredient(id, ingredient)?.let { ResponseEntity.ok(it) } ?: ResponseEntity.notFound().build()
+        ingredientService.updateIngredient(id, ingredient)?.let { ResponseEntity.ok(it) } ?: ResponseEntity.notFound()
+            .build()
 
     @DeleteMapping("/{id}")
     fun deleteIngredient(@PathVariable id: Long): ResponseEntity<Void> {

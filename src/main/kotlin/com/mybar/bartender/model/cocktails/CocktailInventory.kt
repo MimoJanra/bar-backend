@@ -22,7 +22,7 @@ data class CocktailInventory(
 
     val unit: String
 ) {
-    fun toDto() : InventoryItemDto {
+    fun toDto(): InventoryItemDto {
         return InventoryItemDto(this.inventoryItem.name, this.amount, this.unit)
     }
 }

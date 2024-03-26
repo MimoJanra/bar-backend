@@ -13,7 +13,8 @@ import kotlin.jvm.optionals.getOrNull
 class BarService(
     private var authService: AuthService,
     private val barRepository: BarRepository,
-    private val userRepository: UserRepository) {
+    private val userRepository: UserRepository
+) {
 
     fun createBar(dto: BarDto): Bar {
         var id = authService.getUserId();
