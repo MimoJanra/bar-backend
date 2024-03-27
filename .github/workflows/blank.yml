@@ -24,7 +24,7 @@ jobs:
     - name: Mirror
       uses: SvanBoxel/gitlab-mirror-and-ci-action@master
       with:
-        args: "https://gitlab.com/Glawk/bar-backend"
+        args: "https://gitlab.com/Glawk/bar-backend.git"
       env:
         FOLLOW_TAGS: "false"
         FORCE_PUSH: "false"
