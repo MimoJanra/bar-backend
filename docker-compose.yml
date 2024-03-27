@@ -3,6 +3,7 @@ version: '3.8'
 services:
   db:
     image: postgres:16
+    restart: always
     environment:
       POSTGRES_DB: bartender
       POSTGRES_USER: user
@@ -14,6 +15,17 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: mimojanra@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: ftB4iAe765(>
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
 
   bartender:
     image: registry.gitlab.com/glawk/bar-backend:latest
@@ -30,3 +42,4 @@ services:
 
 volumes:
   db-data:
+  pgadmin-data:
