@@ -46,9 +46,12 @@ deploy:
     - echo $SSH_HOST_KEY >> ~/.ssh/known_hosts
     # upload docker-compose to the server
     - scp docker-compose.yml bartender@31.129.96.107:/home/bartender/
-    # docker login and restart services
+    # upload nginx configuration to the server
+    - scp nginx/nginx.conf bartender@31.129.96.107:/home/bartender/nginx/
+    # docker login and restart services, reload nginx conf
     - ssh bartender@31.129.96.107 "cd /home/bartender; 
         docker login -u $CI_REGISTRY_USER 
           -p $CI_REGISTRY_PASSWORD $CI_REGISTRY;
-        docker compose up -d"
+        docker compose up -d;
+        docker-compose exec nginx nginx -s reload"
 

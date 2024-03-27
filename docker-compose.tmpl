@@ -19,13 +19,23 @@ services:
     image: dpage/pgadmin4
     container_name: pgadmin4_container
     restart: always
-    ports:
-      - "8888:80"
     environment:
       PGADMIN_DEFAULT_EMAIL: mimojanra@gmail.com
       PGADMIN_DEFAULT_PASSWORD: ftB4iAe765(>
     volumes:
       - pgadmin-data:/var/lib/pgadmin
+  nginx:
+    image: nginx:latest
+    container_name: nginx_reverse
+    restart: always
+    volumes:
+      - /home/bartender/nginx:/etc/nginx/conf.d/:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - bartender
+      - pgadmin
 
   bartender:
     image: $CI_REGISTRY_IMAGE:latest
@@ -37,8 +47,6 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/bartender
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: w(NHr9Dk|jM_
-    ports:
-      - "8080:8080"
 
 volumes:
   db-data:
