@@ -37,7 +37,7 @@ class CocktailService(
         return cocktailRepository.save(cocktail)
     }
 
-    fun deleteCocktail(cocktailId: Long) {
+    fun deleteCocktail(cocktailId: Long, userId: Long) {
         val cocktail = cocktailRepository.findById(cocktailId).orElseThrow {
             RuntimeException("Cocktail not found")
         }
