@@ -8,7 +8,7 @@ class OrderDto(
     val barId: Long,
     val orderItems: List<OrderItemDto>,
     val note: String,
-    val totalCost: Double,
-    val status: OrderStatus,
+    val totalCost: Double?,
+    val status: OrderStatus?,
     val createdAt: LocalDateTime = LocalDateTime.now()
 )

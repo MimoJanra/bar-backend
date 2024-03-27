@@ -19,8 +19,8 @@ class OrderService(@Autowired val orderRepository: OrderRepository,
             userId = orderDto.userId,
             barId = orderDto.barId,
             note = orderDto.note,
-            totalCost = orderDto.totalCost,
-            status = OrderStatus.valueOf(orderDto.status.name),
+            totalCost = 1.1,
+            status = OrderStatus.NEW,
             createdAt = orderDto.createdAt
         )
 

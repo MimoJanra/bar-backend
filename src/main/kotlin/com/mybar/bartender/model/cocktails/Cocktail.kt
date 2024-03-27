@@ -39,6 +39,7 @@ class Cocktail(
 ) {
     fun toDto(): CocktailDto {
         return CocktailDto(
+            this.id,
             this.name,
             this.rating!!,
             this.imagePath,

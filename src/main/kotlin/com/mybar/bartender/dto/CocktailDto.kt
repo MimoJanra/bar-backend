@@ -5,6 +5,7 @@ import com.mybar.bartender.model.cocktails.Cocktail
 import java.math.BigDecimal
 
 data class CocktailDto(
+    val id: Long?,
     val name: String,
     val rating: BigDecimal,
     val imagePath: String?,
