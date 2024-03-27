@@ -11,31 +11,43 @@ before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
 build_image_tagged:
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
   stage: build
   rules:
-    - if: $CI_COMMIT_TAG =~ /[0-9]+\.[0-9]+\.[0-9]+/ || $TEST_BUILD == "true"
+    - if: $CI_COMMIT_TAG =~ /[0-9]+\.[0-9]+\.[0-9]+/ || $TEST_BUILD_TAGGED == "true"
   script:
     - docker build --no-cache -t $IMAGE_NAME:$CI_COMMIT_TAG .
 
 build_image_latest:
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
   stage: build
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH == "main" || $TEST_BUILD == "true"
   script:
     - docker build --no-cache -t $IMAGE_NAME:$IMAGE_VERSION .
     - docker tag $IMAGE_NAME:$IMAGE_VERSION $IMAGE_NAME:latest
 
 push_main_images:
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
   stage: push
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH == "main" || $TEST_BUILD == "true"
   script:
     - docker push $IMAGE_NAME:$IMAGE_VERSION
     - docker push $IMAGE_NAME:latest
 
 push_tagged_images:
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
   stage: push
   rules:
-    - if: $CI_COMMIT_TAG =~ /[0-9]+\.[0-9]+\.[0-9]+/ || $TEST_BUILD == "true"
+    - if: $CI_COMMIT_TAG =~ /[0-9]+\.[0-9]+\.[0-9]+/ || $TEST_BUILD_TAGGED == "true"
   script:
     - docker push $IMAGE_NAME:$CI_COMMIT_TAG
