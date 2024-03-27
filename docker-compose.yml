@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: bartender
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: w(NHr9Dk|jM_
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d bartender"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  bartender:
+    image: registry.gitlab.com/glawk/bar-backend:latest
+    pull_policy: always
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/bartender
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: w(NHr9Dk|jM_
+    ports:
+      - "8080:8080"
+
+volumes:
+  db-data:
