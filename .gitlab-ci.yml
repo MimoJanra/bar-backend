@@ -9,17 +9,6 @@ variables:
 before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
-build_image_tagged:
-  image: docker:20.10.16
-  services:
-    - docker:20.10.16-dind
-  stage: build
-  rules:
-    - if: $CI_COMMIT_TAG =~ /[0-9]+\.[0-9]+\.[0-9]+/ || $TEST_BUILD_TAGGED == "true"
-  script:
-    - docker build --no-cache -t $IMAGE_NAME:$CI_COMMIT_TAG .
-    - docker push $IMAGE_NAME:$CI_COMMIT_TAG
-
 build_image_latest:
   image: docker:20.10.16
   services:
@@ -28,7 +17,38 @@ build_image_latest:
   rules:
     - if: $CI_COMMIT_BRANCH == "main" || $TEST_BUILD == "true"
   script:
-    - docker build --no-cache -t $IMAGE_NAME:$IMAGE_VERSION -t $IMAGE_NAME:latest .
-    - docker push $IMAGE_NAME:$IMAGE_VERSION
-    - docker push $IMAGE_NAME:latest
+    - docker pull $CI_REGISTRY_IMAGE:latest || true
+    - docker build --cache-from $CI_REGISTRY_IMAGE:latest 
+        --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA 
+        --tag $CI_REGISTRY_IMAGE:latest .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+    - docker push $CI_REGISTRY_IMAGE:latest
+
+deploy:
+  stage: deploy
+  image: alpine
+  before_script:
+    # install envsubst and ssh-add
+    - apk add gettext openssh-client
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main" || $TEST_BUILD == "true"
+  script:
+    # create the new docker-compose.yml
+    - envsubst < docker-compose.tmpl > docker-compose.yml
+    # start ssh-agent and import ssh private key
+    - eval `ssh-agent`
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    # add server to list of known hosts
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - touch ~/.ssh/known_hosts
+    - chmod 600 ~/.ssh/known_hosts
+    - echo $SSH_HOST_KEY >> ~/.ssh/known_hosts
+    # upload docker-compose to the server
+    - scp docker-compose.yml bartender@31.129.96.107:/home/bartender/
+    # docker login and restart services
+    - ssh bartender@31.129.96.107 "cd /home/bartender; 
+        docker login -u $CI_REGISTRY_USER 
+          -p $CI_REGISTRY_PASSWORD $CI_REGISTRY;
+        docker compose up -d"
 
