@@ -30,6 +30,8 @@ deploy:
   before_script:
     # install envsubst and ssh-add
     - apk add gettext openssh-client
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main" || $TEST_BUILD == "true"
   script:
     # create the new docker-compose.yml
     - envsubst < docker-compose.tmpl > docker-compose.yml
