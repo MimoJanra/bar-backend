@@ -15,10 +15,10 @@ class CocktailService(
 
     fun findAllCocktails(): List<Cocktail> = cocktailRepository.findAll()
 
-    fun getCocktailById(id: Long): Cocktail? = cocktailRepository.findById(id).orElse(null)
+    fun findCocktailByName(name: String): Cocktail? =
+        cocktailRepository.findByName(name)
 
-    fun searchCocktailsByName(name: String): List<Cocktail> =
-        cocktailRepository.findByNameContainingIgnoreCase(name)
+    fun getCocktailById(id: Long): Cocktail? = cocktailRepository.findById(id).orElse(null)
 
     @Transactional
     fun createCocktail(cocktail: CocktailDto, barId: Long): Cocktail {

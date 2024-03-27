@@ -1,7 +1,6 @@
 package com.mybar.bartender.model
 
 import com.mybar.bartender.model.cocktails.Cocktail
-import com.mybar.bartender.model.cocktails.Order
 import jakarta.persistence.*
 
 @Entity
@@ -13,12 +12,12 @@ class OrderItem(
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "order_id", nullable = false)
-    val order: Order,
+    var order: Order?,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "cocktail_id", nullable = false)
     val cocktail: Cocktail,
 
-    @Column()
-    val count: Int,
+    @Column
+    val count: Int
 )
