@@ -16,7 +16,7 @@ build_image_latest:
   stage: build
   rules:
     - if: $CI_COMMIT_BRANCH == "main" || $TEST_BUILD == "true"
-    - changes:
+      changes:
         - src/**/*
         - Dockerfile
         - build.gradle.kts
