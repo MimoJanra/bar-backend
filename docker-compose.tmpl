@@ -24,18 +24,6 @@ services:
       PGADMIN_DEFAULT_PASSWORD: ftB4iAe765(>
     volumes:
       - pgadmin-data:/var/lib/pgadmin
-  nginx:
-    image: nginx:latest
-    container_name: nginx_reverse
-    restart: always
-    volumes:
-      - /home/bartender/nginx:/etc/nginx/conf.d/:ro
-    ports:
-      - "80:80"
-      - "443:443"
-    depends_on:
-      - bartender
-      - pgadmin
 
   bartender:
     image: $CI_REGISTRY_IMAGE:latest
@@ -50,7 +38,36 @@ services:
       SPRING_DATASOURCE_PASSWORD: w(NHr9Dk|jM_
       DB_CONNECT_MAXATTEMPTS: 20
       DB_CONNECT_BACKOFFDELAY: 5000
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/api/healthcheck" ]
+      interval: 10s
+      timeout: 2s
+      retries: 3
+      start_period: 30s
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_reverse
+    restart: always
+    volumes:
+      - /home/bartender/nginx:/etc/nginx/conf.d/:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - bartender
+      - pgadmin
+      - portainer
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
 
 volumes:
   db-data:
   pgadmin-data:
+  portainer_data:
