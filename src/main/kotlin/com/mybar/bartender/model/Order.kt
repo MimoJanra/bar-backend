@@ -2,7 +2,6 @@ package com.mybar.bartender.model
 
 import jakarta.persistence.*
 import java.time.LocalDateTime
-import kotlin.collections.HashSet
 
 @Entity
 @Table(name = "orders")
