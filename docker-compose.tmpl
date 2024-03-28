@@ -40,6 +40,7 @@ services:
   bartender:
     image: $CI_REGISTRY_IMAGE:latest
     pull_policy: always
+    restart: always
     depends_on:
       db:
         condition: service_healthy
@@ -47,6 +48,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/bartender
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: w(NHr9Dk|jM_
+      DB_CONNECT_MAXATTEMPTS: 20
+      DB_CONNECT_BACKOFFDELAY: 5000
 
 volumes:
   db-data:
